@@ -72,10 +72,9 @@
     path: "{{ wikijs_dir | expanduser }}/config.yml"
 - name: Add permissions for Wiki.js on local postgres
   become_user: postgres
-  postgresql_user:
-    db: "{{ wikijs_db_name }}"
-    name: "{{ wikijs_db_user }}"
-    priv: "ALL"
+  postgresql_db:
+    name: "{{ wikijs_db_name }}"
+    owner: "{{ wikijs_db_user }}"
   when: wikijs_enable_local_postgres
 - name: Enable Wiki.js service
   systemd:

@@ -79,8 +79,6 @@ dependencies:
 - role: geerlingguy.postgresql
   when: wikijs_enable_local_postgres
   vars:
-    postgresql_databases:
-      - name: "{{ wikijs_db_name }}"
     postgresql_users:
       - name: "{{ wikijs_db_user }}"
         password: "{{ wikijs_db_password }}" 
