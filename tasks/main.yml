@@ -5,26 +5,25 @@
     name: "{{ wikijs_unix_user }}"
     create_home: yes
 - name: Create Wiki.js directory
-  become_user: "{{ wikijs_unix_user }}"
   file: 
-    path: "{{ wikijs_dir | expanduser }}"
+    path: "{{ wikijs_dir }}"
     state: directory
+    owner: "{{ wikijs_unix_user }}"
 - name: Download Wiki.js distribution
-  become_user: "{{ wikijs_unix_user }}"
   get_url:
     url: "https://github.com/Requarks/wiki/releases/download/2.1.113/wiki-js.tar.gz"
-    dest: "{{ ~ | expanduser }}"
+    dest: "{{ wikijs_dir }}../"
+    owner: "{{ wikijs_unix_user }}"
 - name: Extract Wiki.js
-  become_user: "{{ wikijs_unix_user }}"
   unarchive:
-    src: "{{ ~ | expanduser }}/wiki-js.tar.gz"
-    dest: "{{ wikijs_dir | expanduser }}"
+    src: "{{ wikijs_dir }}../wiki-js.tar.gz"
+    dest: "{{ wikijs_dir }}"
 - name: Create config file
-  become_user: "{{ wikijs_unix_user }}"
   copy:
-    src: "{{ wikijs_dir | expanduser }}/config.sample.yml"
-    dest: "{{ wikijs_dir | expanduser }}/config.yml"
+    src: "{{ wikijs_dir }}/config.sample.yml"
+    dest: "{{ wikijs_dir }}/config.yml"
     remote_src: yes
+    owner: "{{ wikijs_unix_user }}"
 - name: Copy SystemD service
   template:
     src: "wikijs.service.j2"
