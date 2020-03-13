@@ -59,7 +59,7 @@
 - name: Wiki.js Configuration - database password
   lineinfile:
     regexp: "^\\s{2}pass: \\S*"
-    line: "  pass: {{ wikijs_db_pass }}"
+    line: "  pass: {{ wikijs_db_password }}"
     path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - database name
   lineinfile:
