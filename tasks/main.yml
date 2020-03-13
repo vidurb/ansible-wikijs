@@ -77,6 +77,13 @@
     name: "{{ wikijs_db_name }}"
     owner: "{{ wikijs_db_user }}"
   when: wikijs_enable_local_postgres
+- name: Set Wiki.js folder permissions
+  file:
+    path: "{{ wikijs_dir }}"
+    owner: "{{ wikijs_unix_user }}"
+    group: "{{ wikijs_unix_user }}"
+    state: directory
+    recurse: yes
 - name: Enable Wiki.js service
   systemd:
     daemon-reload: yes
