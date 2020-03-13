@@ -7,7 +7,7 @@ wikijs_domain: "getastra.dev"
 wikijs_bind_ip: "127.0.0.1"
 wikijs_bind_port: 9001
 wikijs_db_type: "postgres"
-wikijs_db_host: "localhost"\
+wikijs_db_host: "localhost"
 wikijs_db_port: 5432
 wikijs_db_user: "wikijs"
 wikijs_db_password: "insecurepassword"
