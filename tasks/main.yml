@@ -1,2 +1,97 @@
 ---
 # tasks file for wikijs
+- name: Create Wiki.js user
+  user:
+    name: "{{ wikijs_unix_user }}"
+    create_home: yes
+- name: Create Wiki.js directory
+  become_user: "{{ wikijs_unix_user }}"
+  file: 
+    path: "{{ wikijs_dir | expanduser }}"
+    state: directory
+- name: Download Wiki.js distribution
+  become_user: "{{ wikijs_unix_user }}"
+  get_url:
+    url: "https://github.com/Requarks/wiki/releases/download/2.1.113/wiki-js.tar.gz"
+    dest: "{{ ~ | expanduser }}"
+- name: Extract Wiki.js
+  become_user: "{{ wikijs_unix_user }}"
+  unarchive:
+    src: "{{ ~ | expanduser }}/wiki-js.tar.gz"
+    dest: "{{ wikijs_dir | expanduser }}"
+- name: Create config file
+  become_user: "{{ wikijs_unix_user }}"
+  copy:
+    src: "{{ wikijs_dir | expanduser }}/config.sample.yml"
+    dest: "{{ wikijs_dir | expanduser }}/config.yml"
+    remote_src: yes
+- name: Copy SystemD service
+  template:
+    src: "wikijs.service.j2"
+    dest: "/etc/systemd/system/wikijs.service"
+    owner: root
+    mode: '644'
+- name: Wiki.js Configuration - bind port
+  lineinfile:
+    regexp: "^port: \\d*"
+    line: "port: {{ wikijs_bind_port }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Wiki.js Configuration - database type
+  lineinfile:
+    regexp: "^\\s{2}type: [a-z]*"
+    line: "  type: {{ wikijs_db_type }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Wiki.js Configuration - database host
+  lineinfile:
+    regexp: "^\\s{2}host: [a-z0-9.]*"
+    line: "  host: {{ wikijs_db_host }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Wiki.js Configuration - database port
+  lineinfile:
+    regexp: "^\\s{2}port: \\d*"
+    line: "  port: {{ wikijs_db_port }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Wiki.js Configuration - database user
+  lineinfile:
+    regexp: "^\\s{2}user: \\w*"
+    line: "  user: {{ wikijs_db_user }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Wiki.js Configuration - database password
+  lineinfile:
+    regexp: "^\\s{2}pass: \\S*"
+    line: "  pass: {{ wikijs_db_pass }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Wiki.js Configuration - database name
+  lineinfile:
+    regexp: "^\\s{2}db: \\w*"
+    line: "  db: {{ wikijs_db_name }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Wiki.js Configuration - bind ip
+  lineinfile:
+    regexp: "^bindIP: [0-9.]*"
+    line: "bindIP: {{ wikijs_bind_ip }}"
+    path: "{{ wikijs_dir | expanduser }}/config.yml"
+- name: Add permissions for Wiki.js on local postgres
+  become_user: postgres
+  postgresql_user:
+    db: "{{ wikijs_db_name }}"
+    name: "{{ wikijs_db_user }}"
+    priv: "ALL"
+  when: wikijs_enable_local_postgres
+- name: Enable Wiki.js service
+  systemd:
+    daemon-reload: yes
+    enabled: yes
+    state: started
+    name: wikijs
+- name: Assign DNS for Wiki.js
+  cloudflare_dns:
+    zone: "{{ wikijs_domain }}"
+    record: "{{ wikijs_subdomain | default('@', true) }}"
+    type: A
+    solo: true
+    proxied: yes
+    value: "{{ ansible_host }}"
+    account_api_token: "{{ wikijs_cloudflare_api_token }}"
+    account_email: "{{ wikijs_cloudflare_account_email }}"
+  when: wikijs_enable_cloudflare

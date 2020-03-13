@@ -1,22 +1,42 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Wiki.js Role
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Variable | Type | Default | Usage
+--- | --- | --- | ---
+`wikijs_unix_user` | string | wikijs | Unix username for Wiki.js user
+`wikijs_dir` | string | `~/wiki` | Directory to install Wiki.js
+`wikijs_subdomain` | string | shaastr | Subdomain for Wiki.js, must have trailing `.`, can be blank to install on root domain
+`wikijs_domain` | string | getastra.dev | Domain for Wiki.js
+`wikijs_bind_ip` | string | 127.0.0.1 | IP to bind Wiki.js node server to
+`wikijs_bind_port` | int | 9001 | Port to bind Wiki.js node server
+`wikijs_db_type` | string | postgres | Wiki.js database type
+`wikijs_db_host` | string | 127.0.0.1 | Wiki.js database host
+`wikijs_db_port` | int | 5432 | Wiki.js database port
+`wikijs_db_user` | string | wikijs | Wiki.js database username
+`wikijs_db_password` | string | insecurepassword | Wiki.js database password
+`wikijs_db_name` | string | wikijs | Wiki.js database name
+`wikijs_enable_local_postgres` | boolean | true | Install postgres locally
+`wikijs_enable_cloudflare` | boolean | false | Update Cloudflare DNS 
+`wikijs_cloudflare_api_token` | string | none | Cloudflare API token
+`wikijs_cloudflare_account_email` | string | none | Cloudflare account email address
+`wikijs_nginx_conf_options` | string | See `defaults/main.yml` | Nginx conf options
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- `geerlingguy.postgres`: required if `wikijs_enable_local_postgres` is true
+- `geerlingguy.nginx`
+- `geerlingguy.nodejs`
 
 Example Playbook
 ----------------

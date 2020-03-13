@@ -1,7 +1,7 @@
 galaxy_info:
-  author: your name
-  description: your role description
-  company: your company (optional)
+  author: Vidur Butalia
+  description: SDE 1
+  company: Astra IT Inc.
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -14,7 +14,7 @@ galaxy_info:
   # - GPL-3.0-only
   # - Apache-2.0
   # - CC-BY-4.0
-  license: license (GPL-2.0-or-later, MIT, etc)
+  license: Unlicensed
 
   min_ansible_version: 2.9
 
@@ -47,7 +47,44 @@ galaxy_info:
     # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
     #       Maximum 20 tags per role.
 
-dependencies: []
+dependencies: 
+- role: geerlingguy.nginx
+  vars:
+    nginx_vhosts:
+    - listen: "443 ssl http2"
+      server_name: "{{ wikijs_subdomain }}{{ wikijs_domain }}"
+      access_log: "/var/log/nginx/{{ wikijs_subdomain }}{{ wikijs_domain }}_access.log"
+      error_log: "/var/log/nginx/{{ wikijs_subdomain }}{{ wikijs_domain }}_error.log"
+      state: "present"
+      filename: "{{ wikijs_subdomain }}{{ wikijs_domain }}.conf"
+      extra_parameters: |
+        charset  utf-8;
+        client_max_body_size  50M;
+        location / {
+          proxy_set_header Host $http_host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_pass http://{{ wikijs_bind_ip }}:{{ wikijs_bind_port }};
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+          proxy_next_upstream error timeout http_502 http_503 http_504;
+        }
+    nginx_remove_default_vhost:
+    nginx_user: "www-data"
+    nginx_server_tokens: "off"
+    nginx_extra_http_options: "{{ wikijs_nginx_conf_options }}"
+- role: geerlingguy.nodejs
+  vars:
+    nodejs_version: "12.x"
+- role: geerlingguy.postgres
+  when: wikijs_enable_local_postgres
+  vars:
+    postgresql_databases:
+      - name: "{{ wikijs_db_name }}"
+    postgresql_users:
+      - name: "{{ wikijs_db_user }}"
+        password: "{{ wikijs_db_password }}" 
+
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
   # if you add dependencies to this list.
   
