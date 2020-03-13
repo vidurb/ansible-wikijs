@@ -12,11 +12,11 @@
 - name: Download Wiki.js distribution
   get_url:
     url: "https://github.com/Requarks/wiki/releases/download/2.1.113/wiki-js.tar.gz"
-    dest: "{{ wikijs_dir }}../"
+    dest: "{{ wikijs_dir }}/"
     owner: "{{ wikijs_unix_user }}"
 - name: Extract Wiki.js
   unarchive:
-    src: "{{ wikijs_dir }}../wiki-js.tar.gz"
+    src: "{{ wikijs_dir }}/wiki-js.tar.gz"
     dest: "{{ wikijs_dir }}"
 - name: Create config file
   copy:
@@ -34,42 +34,42 @@
   lineinfile:
     regexp: "^port: \\d*"
     line: "port: {{ wikijs_bind_port }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - database type
   lineinfile:
     regexp: "^\\s{2}type: [a-z]*"
     line: "  type: {{ wikijs_db_type }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - database host
   lineinfile:
     regexp: "^\\s{2}host: [a-z0-9.]*"
     line: "  host: {{ wikijs_db_host }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - database port
   lineinfile:
     regexp: "^\\s{2}port: \\d*"
     line: "  port: {{ wikijs_db_port }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - database user
   lineinfile:
     regexp: "^\\s{2}user: \\w*"
     line: "  user: {{ wikijs_db_user }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - database password
   lineinfile:
     regexp: "^\\s{2}pass: \\S*"
     line: "  pass: {{ wikijs_db_pass }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - database name
   lineinfile:
     regexp: "^\\s{2}db: \\w*"
     line: "  db: {{ wikijs_db_name }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Wiki.js Configuration - bind ip
   lineinfile:
     regexp: "^bindIP: [0-9.]*"
     line: "bindIP: {{ wikijs_bind_ip }}"
-    path: "{{ wikijs_dir | expanduser }}/config.yml"
+    path: "{{ wikijs_dir }}/config.yml"
 - name: Add permissions for Wiki.js on local postgres
   become_user: postgres
   postgresql_db:
