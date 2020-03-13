@@ -18,6 +18,7 @@
   unarchive:
     src: "{{ wikijs_dir }}/wiki-js.tar.gz"
     dest: "{{ wikijs_dir }}"
+    remote_src: true
 - name: Create config file
   copy:
     src: "{{ wikijs_dir }}/config.sample.yml"
