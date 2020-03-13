@@ -79,6 +79,7 @@ dependencies:
 - role: geerlingguy.postgresql
   when: wikijs_enable_local_postgres
   vars:
+    postgresql_python_library: python3-psycopg2
     postgresql_users:
       - name: "{{ wikijs_db_user }}"
         password: "{{ wikijs_db_password }}" 
