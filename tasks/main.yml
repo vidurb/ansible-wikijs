@@ -93,8 +93,12 @@
     name: wikijs
 - name: Assign DNS for Wiki.js
   cloudflare_dns:
-    zone: "{{ wikijs_domain }}"
-    record: "{{ wikijs_subdomain | default('@', true) }}"
+    zone: "{{ wikijs_hostname|split('.')[ wikijs_hostname|split('.')|length - 2 ] }}.{{ wikijs_hostname|split('.')[ wikijs_hostname|split('.')|length - 1 ] }}"
+    record: "{{ wikijs_hostname|split('.')|length >= 5 | ternary( wikijs_hostname|split('.')[ wikijs_hostname|split('.')|length - 5 ], '' ) }}\
+    {{ wikijs_hostname|split('.')|length >= 5 | ternary( '.', '' ) }}\
+    {{ wikijs_hostname|split('.')|length >= 4 | ternary( wikijs_hostname|split('.')[ wikijs_hostname|split('.')|length - 4 ], '' ) }}\
+    {{ wikijs_hostname|split('.')|length >= 4 | ternary( '.', '' ) }}\
+    {{ wikijs_hostname|split('.')|length >= 3 | ternary( wikijs_hostname|split('.')[ wikijs_hostname|split('.')|length - 3 ], '' ) }}"
     type: A
     solo: true
     proxied: yes

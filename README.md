@@ -14,8 +14,7 @@ Variable | Type | Default | Usage
 --- | --- | --- | ---
 `wikijs_unix_user` | string | wikijs | Unix username for Wiki.js user
 `wikijs_dir` | string | `~/wiki` | Directory to install Wiki.js
-`wikijs_subdomain` | string | shaastr | Subdomain for Wiki.js, must have trailing `.`, can be blank to install on root domain
-`wikijs_domain` | string | getastra.dev | Domain for Wiki.js
+`wikijs_hostname` | string | wiki.getastra.dev | Domain for Wiki.js
 `wikijs_bind_ip` | string | 127.0.0.1 | IP to bind Wiki.js node server to
 `wikijs_bind_port` | int | 9001 | Port to bind Wiki.js node server
 `wikijs_db_type` | string | postgres | Wiki.js database type
