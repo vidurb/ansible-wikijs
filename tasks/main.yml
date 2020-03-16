@@ -5,7 +5,7 @@
     name: "{{ wikijs_unix_user }}"
     create_home: yes
 - name: Create Wiki.js directory
-  file: 
+  file:
     path: "{{ wikijs_dir }}"
     state: directory
     owner: "{{ wikijs_unix_user }}"
@@ -72,6 +72,7 @@
     line: "bindIP: {{ wikijs_bind_ip }}"
     path: "{{ wikijs_dir }}/config.yml"
 - name: Add permissions for Wiki.js on local postgres
+  become: yes
   become_user: postgres
   postgresql_db:
     name: "{{ wikijs_db_name }}"
