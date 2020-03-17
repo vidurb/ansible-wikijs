@@ -52,11 +52,11 @@ dependencies:
   vars:
     nginx_vhosts:
     - listen: "443 ssl http2"
-      server_name: "{{ wikijs_subdomain }}{{ wikijs_domain }}"
-      access_log: "/var/log/nginx/{{ wikijs_subdomain }}{{ wikijs_domain }}_access.log"
-      error_log: "/var/log/nginx/{{ wikijs_subdomain }}{{ wikijs_domain }}_error.log"
+      server_name: "{{ wikijs_subdomain }}.{{ wikijs_domain }}"
+      access_log: "/var/log/nginx/{{ wikijs_subdomain }}.{{ wikijs_domain }}_access.log"
+      error_log: "/var/log/nginx/{{ wikijs_subdomain }}.{{ wikijs_domain }}_error.log"
       state: "present"
-      filename: "{{ wikijs_subdomain }}{{ wikijs_domain }}.conf"
+      filename: "{{ wikijs_subdomain }}.{{ wikijs_domain }}.conf"
       extra_parameters: |
         charset  utf-8;
         client_max_body_size  50M;
