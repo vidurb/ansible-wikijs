@@ -1,5 +1,7 @@
 ---
 # tasks file for wikijs
+- name: Generate prerequisite variables
+  include_tasks: setup.yml
 - name: Create Wiki.js user
   user:
     name: "{{ wikijs_unix_user }}"
@@ -93,8 +95,8 @@
     name: wikijs
 - name: Assign DNS for Wiki.js
   cloudflare_dns:
-    zone: "{{ wikijs_hostname_domain }}"
-    record: "{{ wikijs_hostname_subdomain | default('@', true) }}"
+    zone: "{{ wikijs_domain }}"
+    record: "{{ wikijs_subdomain | default('@', true) }}"
     type: A
     solo: true
     proxied: yes

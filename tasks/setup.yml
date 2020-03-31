@@ -1,0 +1,8 @@
+---
+- name: Generate hostname from domain
+  set_fact:
+    wikijs_hostname: "{{ wikijs_domain }}"
+- name: Generate hostname from subdomain
+  set_fact:
+    wikijs_hostname: "{{ wikijs_subdomain }}.{{ wikijs_hostname }}"
+  when: wikijs_subdomain and not wikijs_subdomain == ""
