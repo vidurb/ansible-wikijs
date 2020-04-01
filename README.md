@@ -6,6 +6,7 @@ Installs Wiki.js on an Ubuntu 18.04 server. Support for more platforms coming so
 Requirements
 ------------
 
+None.
 
 Role Variables
 --------------
