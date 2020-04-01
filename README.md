@@ -1,7 +1,7 @@
-Role Name
+ansible-wikijs
 =========
 
-Wiki.js Role
+Installs Wiki.js on an Ubuntu 18.04 server. Support for more platforms coming soon.
 
 Requirements
 ------------
@@ -14,8 +14,8 @@ Variable | Type | Default | Usage
 --- | --- | --- | ---
 `wikijs_unix_user` | string | wikijs | Unix username for Wiki.js user
 `wikijs_dir` | string | `~/wiki` | Directory to install Wiki.js
-`wikijs_domain` | string | getastra.dev | Domain for Wiki.js
-`wikijs_subdomain` | string | wiki | Subdomain for Wiki.js
+`wikijs_domain` | string | example.com | Domain for Wiki.js
+`wikijs_subdomain` | string | wikijs | Subdomain for Wiki.js
 `wikijs_bind_ip` | string | 127.0.0.1 | IP to bind Wiki.js node server to
 `wikijs_bind_port` | int | 9001 | Port to bind Wiki.js node server
 `wikijs_db_type` | string | postgres | Wiki.js database type
@@ -50,9 +50,9 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Vidur Butalia

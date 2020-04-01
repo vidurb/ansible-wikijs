@@ -1,9 +1,8 @@
 ---
-# defaults file for wikijs
 wikijs_unix_user: "wikijs"
 wikijs_dir: "/home/{{ wikijs_unix_user }}/wikijs"
-wikijs_domain: "getastra.dev"
-wikijs_subdomain: "wiki"
+wikijs_domain: "example.com"
+wikijs_subdomain: "wikijs"
 wikijs_bind_ip: "127.0.0.1"
 wikijs_bind_port: 9001
 wikijs_db_type: "postgres"

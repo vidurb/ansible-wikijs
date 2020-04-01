@@ -1,7 +1,7 @@
 galaxy_info:
   author: Vidur Butalia
-  description: SDE 1
-  company: Astra IT Inc.
+  description: Installs Wiki.js on Ubuntu 18.04
+  role_name: wikijs
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -14,7 +14,7 @@ galaxy_info:
   # - GPL-3.0-only
   # - Apache-2.0
   # - CC-BY-4.0
-  license: Unlicensed
+  license: MIT
 
   min_ansible_version: 2.9
 
