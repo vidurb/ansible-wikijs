@@ -5,4 +5,4 @@
 - name: Generate hostname from subdomain
   set_fact:
     wikijs_hostname: "{{ wikijs_subdomain }}.{{ wikijs_hostname }}"
-  when: wikijs_subdomain and not wikijs_subdomain == ""
+  when: wikijs_subdomain is defined

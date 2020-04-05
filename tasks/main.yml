@@ -93,6 +93,21 @@
     enabled: yes
     state: started
     name: wikijs
+- name: Copy nginx configuration
+  become: yes
+  block:
+    - name: Copy nginx vhost configuration for Wiki.js
+      template:
+        src: nginx.conf.j2
+        dest: "/etc/nginx/sites-available/{{ wikijs_hostname }}.conf"
+    - name: Enable nginx vhost
+      file:
+        src: "/etc/nginx/sites-available/{{ wikijs_hostname }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ wikijs_hostname }}.conf"
+        owner: root
+        group: root
+        state: link
+      notify: restart nginx
 - name: Assign DNS for Wiki.js
   cloudflare_dns:
     zone: "{{ wikijs_domain }}"

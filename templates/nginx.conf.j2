@@ -1,0 +1,18 @@
+server {
+    listen          443 ssl http2;
+    server_name     {{ wikijs_hostname }};
+    access_log      /var/log/nginx/{{ wikijs_hostname }}_access.log;
+    error_log       /var/log/nginx/{{ wikijs_hostname }}_error.log;
+    charset                 utf-8;
+    client_max_body_size    50M;
+
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://{{ wikijs_bind_ip }}:{{ wikijs_bind_port }};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_next_upstream error timeout http_502 http_503 http_504;
+    }
+}
